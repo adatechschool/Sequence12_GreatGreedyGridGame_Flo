@@ -65,13 +65,15 @@ void draw()
      D1.dessiner();
      P1.augmente_score();
    }
+   affiche_score();
 }
 
 void affiche_score()
 {
-  textSize(45);
+  String score = "Score = " + str(P1.get_score());
+  textSize(30);
   fill(50, 50, 50);
-  text("Score =", 600, 600);
+  text(score , 600, 50);
 }
 
 void explosion()
