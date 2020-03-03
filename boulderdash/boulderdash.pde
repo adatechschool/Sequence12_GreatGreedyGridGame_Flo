@@ -2,46 +2,16 @@ int taille_tableau = 15;
 int posx = 0;
 int posy = 0;
 int taille_cellule = 600/taille_tableau;
+Player P1 = new Player(0, 0);
 Boulder B1 = new Boulder(5, 5);
 Boulder B2 = new Boulder(3, 11);
-
-class Boulder
-{
-  int Xpos, Ypos, Gpos;
-  Boulder (int a, int b)
-  {
-    Xpos = a;
-    Ypos = b;
-    Gpos = 100*b + a;
-  }
-  
-  void dessiner()
-  {
-    fill(100);
-    rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
-  }
-  
-  void tomber()
-  {
-    while (Ypos < 16)
-    {
-      if (frameCount%60 == 0)
-      {
-        fill(255);
-        rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
-        Ypos++;
-        fill(100);
-        rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
-      }
-    }
-  }
-  
-  int get_pos()
-  {
-    return Gpos;
-  }
-  
-}
+Diamond D1 = new Diamond(10, 10);
+//int k = 7;
+//Boulder[] tabBoulders = new Boulder[k];
+//for (int i = 0; i < k; i++)
+//{
+//  tabBoulders[k]  = new Boulder(int(random(15)), int(random(15)));
+//}
 
 void setup()
 {
@@ -55,9 +25,6 @@ void draw()
    int pos_perso = 0;
    fill(210, 125, 105);
    rect(600, 0, 200, 800);
-   textSize(32);
-   text(str(personnage(posx, posy, taille_cellule)), 600, 60);
-   fill(0);
    
    for (int i = 0; i < taille_tableau; i++)
    {
@@ -69,7 +36,18 @@ void draw()
    }
    B1.dessiner();
    B2.dessiner();
-   pos_perso = personnage(posx, posy, taille_cellule);
+   D1.dessiner();
+   if (keyPressed)
+   {
+     P1.bouger();
+   }
+   P1.dessiner();
+   if (frameCount%4 == 0)
+   {
+     B1.bouger();
+     B2.bouger();
+   }
+   pos_perso = P1.get_pos();
    
    if (B1.get_pos() == pos_perso)
    {
@@ -80,6 +58,20 @@ void draw()
    {
      explosion();
    }
+   if (D1.get_pos() == pos_perso)
+   {
+     D1.Xpos = int(random(15));
+     D1.Ypos = int(random(15));
+     D1.dessiner();
+     P1.augmente_score();
+   }
+}
+
+void affiche_score()
+{
+  textSize(45);
+  fill(50, 50, 50);
+  text("Score =", 600, 600);
 }
 
 void explosion()
@@ -87,46 +79,4 @@ void explosion()
     textSize(58);
     fill(255, 0, 0);
     text("EXPLOSION FATALE", 200, 200);
-}
-
-int personnage(int posx, int posy, int taille_cellule)
-{
-  int pos_perso = posx + posy*100;
-  // le carré noir
-   fill(0);
-   rect(posx*taille_cellule, posy*taille_cellule, taille_cellule, taille_cellule);
-   // le rond rouge
-   fill(constrain(int(millis()%250), 0, 255), millis()%100, random(25));
-   ellipseMode(CENTER);
-   ellipse(taille_cellule/2 + (posx*taille_cellule), taille_cellule/2 + (posy*taille_cellule), taille_cellule, taille_cellule);
-   //le rond Central
-   blendMode(BLEND);
-   fill(constrain(int(millis()%600), 0, 125), constrain(millis()*120, 0, 255), random(100));
-   ellipse(taille_cellule/2 + (posx*taille_cellule), taille_cellule/2 + (posy*taille_cellule), taille_cellule/2, taille_cellule/2);
-   return pos_perso;
-}
-
-
-void keyPressed()
-{
-  if (key == 'z' && posy > 0)
-  {
-    posy--;
-    return;
-  }
-  if (key == 's' && posy < taille_tableau - 1)
-  {
-    posy++; 
-    return;
-  }
-  if (key == 'q' && posx > 0)
-  {
-    posx--;
-    return;
-  }
-  if (key == 'd' && posx < taille_tableau - 1)
-  {
-    posx++;
-    return;
-  }
 }
