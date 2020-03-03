@@ -98,7 +98,6 @@ class Boulder
   {
       int direction = int(random(4) + 1);    
       this.clear();
-      print(direction);
       switch(direction)
       {
         case 1:
