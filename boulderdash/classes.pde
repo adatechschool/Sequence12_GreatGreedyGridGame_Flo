@@ -43,24 +43,46 @@ class Player
   
   void bouger()
   {  
+    int prev_Xpos = this.Xpos;
+    int prev_Ypos = this.Ypos;
     if (key == 'z' && Ypos > 0)
       {
         Ypos--;
+        if (!check_case(this.get_pos()))
+        {
+         Xpos = prev_Xpos;
+         Ypos = prev_Ypos;
+        }
         return;
       }
       if (key == 's' && Ypos < taille_tableau - 1)
       {
-        Ypos++; 
+        Ypos++;
+        if (!check_case(this.get_pos()))
+        {
+         Xpos = prev_Xpos;
+         Ypos = prev_Ypos;
+        }
         return;
       }
       if (key == 'q' && Xpos > 0)
       {
         Xpos--;
+        if (!check_case(this.get_pos()))
+        {
+         Xpos = prev_Xpos;
+         Ypos = prev_Ypos;
+        }
         return;
       }
       if (key == 'd' && Xpos < taille_tableau - 1)
       {
         Xpos++;
+        if (!check_case(this.get_pos()))
+        {
+         Xpos = prev_Xpos;
+         Ypos = prev_Ypos;
+        }
         return;
       }
   }
@@ -96,7 +118,9 @@ class Boulder
   
   void bouger()
   {
-      int direction = int(random(4) + 1);    
+      int direction = int(random(4) + 1);
+      int prev_Xpos = this.Xpos;
+      int prev_Ypos = this.Ypos;
       this.clear();
       switch(direction)
       {
@@ -125,6 +149,12 @@ class Boulder
             break;
           }
       }
+      print(check_case(this.get_pos()));
+      if (!check_case(this.get_pos()))
+      {
+         Xpos = prev_Xpos;
+         Ypos = prev_Ypos;
+      }
       this.dessiner();
       this.get_pos();
   }
@@ -135,6 +165,63 @@ class Boulder
   }
 }
 
+class Mechant
+{
+  int Xpos, Ypos, Gpos;
+  Mechant (int a, int b)
+  {
+    Xpos = a;
+    Ypos = b;
+    Gpos = 100*b + a;
+  }
+  
+  void clear()
+  {
+    fill(255);
+    rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+  }
+  
+  void dessiner()
+  {
+    fill(230, 45, 78);
+    rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+  }
+  
+  void bouger(int targetX, int targetY)
+  {
+      int diffX = targetX - this.Xpos;
+      int diffY = targetY - this.Ypos;
+      if (abs(diffX) > abs(diffY))
+      {
+        if (this.Xpos > targetX)
+        {
+          Xpos--;
+        }
+        else if (this.Xpos < targetX)
+        {
+          Xpos++;
+        }
+      }
+      else
+      {
+        if (this.Ypos > targetY)
+        {
+          Ypos--;
+        }
+        else if (this.Ypos < targetY)
+        {
+          Ypos++;
+        }
+      }
+      this.dessiner();
+      this.get_pos();
+  }
+    int get_pos()
+  {
+    Gpos = 100*Ypos + Xpos;
+    return Gpos;
+  }
+}
 
 class Diamond
 {

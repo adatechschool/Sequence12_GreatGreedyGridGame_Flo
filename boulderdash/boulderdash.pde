@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+
 int taille_tableau = 15;
 int posx = 0;
 int posy = 0;
@@ -6,21 +9,39 @@ Player P1 = new Player(0, 0);
 Boulder B1 = new Boulder(5, 5);
 Boulder B2 = new Boulder(3, 11);
 Diamond D1 = new Diamond(10, 10);
+Mechant M1 = new Mechant(14, 14);
+Mechant M2 = new Mechant(0, 14);
+Mechant M3 = new Mechant(14, 0);
+int[] murs = new int[100];
+int nb_murs = 0;
+
 int flag = 0;
 int Xporte = int(random(15));
 int Yporte = int(random(15));
 int Gporte = - 1;
-//int k = 7;
-//Boulder[] tabBoulders = new Boulder[k];
-//for (int i = 0; i < k; i++)
-//{
-//  tabBoulders[k]  = new Boulder(int(random(15)), int(random(15)));
-//}
+int k = 7;
+Boulder[] tabBoulders = new Boulder[k];
 
 void setup()
 {
    size(800, 600);
    background(210, 125, 105);
+   for (int i = 0; i < k; i++)
+   {
+     tabBoulders[i]  = new Boulder(int(random(15)), int(random(15)));
+   }
+   for (int i = 0; i < taille_tableau; i++)
+   {
+     for (int j = 0; j < taille_tableau; j++)
+     {
+        float chance = random(100);
+        if (chance > 90)
+        {
+          murs[nb_murs] = (j*100 + i);
+          nb_murs++;
+        }
+     }
+   }
 }
 
 void draw()
@@ -36,24 +57,52 @@ void draw()
      {
        fill(255);
        rect(i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
+       for (int p = 0; p < nb_murs; p++)
+       {
+         if (murs[p] == (i + 100*j))
+         {
+           fill(100);
+           rect(i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
+         }
+       }
      }
    }
    B1.dessiner();
    B2.dessiner();
    D1.dessiner();
+   M1.dessiner();
+   for (int p = 0; p < k; p++)
+   {
+     tabBoulders[p].dessiner();
+   }
+
    if (keyPressed && flag == 0)
    {
      flag = 1;
      P1.bouger();
    }
    P1.dessiner();
-   if (frameCount%4 == 0)
+   if (frameCount%8 == 0)
    {
      B1.bouger();
      B2.bouger();
+     for (int p = 0; p < k; p++)
+     {
+       tabBoulders[p].bouger();
+     }
+    }
+   if (frameCount%24 == 0)
+   {
+     M1.bouger(P1.Xpos, P1.Ypos);
+     M2.bouger(P1.Xpos, P1.Ypos);
+     M3.bouger(P1.Xpos, P1.Ypos);
    }
    pos_perso = P1.get_pos();
    
+   if (M1.get_pos() == pos_perso)
+   {
+     explosion();
+   }
    if (B1.get_pos() == pos_perso)
    {
      explosion();
@@ -67,6 +116,11 @@ void draw()
    {
      D1.Xpos = int(random(15));
      D1.Ypos = int(random(15));
+     while (!check_case(D1.Xpos + D1.Ypos*100))
+     {
+       D1.Xpos = int(random(15));
+       D1.Ypos = int(random(15));
+     }
      D1.dessiner();
      P1.augmente_score();
    }
@@ -112,6 +166,18 @@ void explosion()
     fill(255, 0, 0);
     text("EXPLOSION FATALE", 200, 200);
     P1.score = 0;
+}
+
+boolean check_case(int lacase)
+{
+  for (int i = 0; i < nb_murs; i++)
+  {
+    if (lacase == murs[i])
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
 void keyReleased()
