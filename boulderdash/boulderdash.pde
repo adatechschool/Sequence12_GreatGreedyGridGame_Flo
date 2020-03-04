@@ -1,6 +1,7 @@
-import java.util.Arrays;
-import java.util.List;
-
+PImage bill;
+PImage vaisseau;
+PImage herbe;
+PImage mur;
 int taille_tableau = 15;
 int posx = 0;
 int posy = 0;
@@ -24,6 +25,10 @@ Boulder[] tabBoulders = new Boulder[k];
 
 void setup()
 {
+   bill = loadImage("bill.jpg");
+   vaisseau = loadImage("vaisseau.png");
+   herbe = loadImage("herbe.jpg");
+   mur = loadImage("mur.jpg");
    size(800, 600);
    background(210, 125, 105);
    for (int i = 0; i < k; i++)
@@ -55,14 +60,12 @@ void draw()
    {
      for (int j = 0; j < taille_tableau; j++)
      {
-       fill(255);
-       rect(i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
+       image(herbe, i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
        for (int p = 0; p < nb_murs; p++)
        {
          if (murs[p] == (i + 100*j))
          {
-           fill(100);
-           rect(i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
+           image(mur, i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
          }
        }
      }

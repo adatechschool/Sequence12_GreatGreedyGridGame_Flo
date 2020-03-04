@@ -22,23 +22,12 @@ class Player
   
   void clear()
   {
-    fill(255);
-    rect(posx*taille_cellule, posy*taille_cellule, taille_cellule, taille_cellule);
+    image(herbe, posx*taille_cellule, posy*taille_cellule, taille_cellule, taille_cellule);
   }
   
   void dessiner()
   {
-   //le carré noir
-   fill(0);
-   rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
-   // le rond rouge
-   fill(constrain(int(millis()%250), 0, 255), millis()%100, random(25));
-   ellipseMode(CENTER);
-   ellipse(taille_cellule/2 + (Xpos*taille_cellule), taille_cellule/2 + (Ypos*taille_cellule), taille_cellule, taille_cellule);
-   //le rond Central
-   blendMode(BLEND);
-   fill(constrain(int(millis()%600), 0, 125), constrain(millis()*120, 0, 255), random(100));
-   ellipse(taille_cellule/2 + (Xpos*taille_cellule), taille_cellule/2 + (Ypos*taille_cellule), taille_cellule/2, taille_cellule/2);
+   image(bill, Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
   }
   
   void bouger()
@@ -106,8 +95,7 @@ class Boulder
   
   void clear()
   {
-    fill(255);
-    rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+    image(herbe, Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
   }
   
   void dessiner()
@@ -183,8 +171,7 @@ class Mechant
   
   void dessiner()
   {
-    fill(230, 45, 78);
-    rect(Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+    image(vaisseau, Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
   }
   
   void bouger(int targetX, int targetY)
