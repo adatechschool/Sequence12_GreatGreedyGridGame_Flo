@@ -25,10 +25,14 @@ Boulder[] tabBoulders = new Boulder[k];
 
 void setup()
 {
-   bill = loadImage("bill.jpg");
+   bill = loadImage("bill.png");
+   bill.resize(taille_cellule, taille_cellule);
    vaisseau = loadImage("vaisseau.png");
+   vaisseau.resize(taille_cellule, taille_cellule);
    herbe = loadImage("herbe.jpg");
+   herbe.resize(taille_cellule, taille_cellule);
    mur = loadImage("mur.jpg");
+   mur.resize(taille_cellule, taille_cellule);
    size(800, 600);
    background(210, 125, 105);
    for (int i = 0; i < k; i++)
@@ -60,12 +64,12 @@ void draw()
    {
      for (int j = 0; j < taille_tableau; j++)
      {
-       image(herbe, i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
+       image(herbe, i*taille_cellule, j*taille_cellule);
        for (int p = 0; p < nb_murs; p++)
        {
          if (murs[p] == (i + 100*j))
          {
-           image(mur, i*taille_cellule, j*taille_cellule, taille_cellule, taille_cellule);
+           image(mur, i*taille_cellule, j*taille_cellule);
          }
        }
      }

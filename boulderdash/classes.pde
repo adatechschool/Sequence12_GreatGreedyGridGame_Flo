@@ -22,12 +22,12 @@ class Player
   
   void clear()
   {
-    image(herbe, posx*taille_cellule, posy*taille_cellule, taille_cellule, taille_cellule);
+    image(herbe, posx*taille_cellule, posy*taille_cellule);
   }
   
   void dessiner()
   {
-   image(bill, Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+   image(bill, Xpos*taille_cellule, Ypos*taille_cellule);
   }
   
   void bouger()
@@ -95,7 +95,7 @@ class Boulder
   
   void clear()
   {
-    image(herbe, Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+    image(herbe, Xpos*taille_cellule, Ypos*taille_cellule);
   }
   
   void dessiner()
@@ -171,7 +171,7 @@ class Mechant
   
   void dessiner()
   {
-    image(vaisseau, Xpos*taille_cellule, Ypos*taille_cellule, taille_cellule, taille_cellule);
+    image(vaisseau, Xpos*taille_cellule, Ypos*taille_cellule);
   }
   
   void bouger(int targetX, int targetY)
